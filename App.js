@@ -1,20 +1,45 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+import React, { useState } from 'react';
+import { View, Button, Text } from 'react-native';
+
+const MainMenu = ({ onStartGame }) => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View>
+      <Text>GameMenu</Text>
+      <Button title="GameStart" onPress={onStartGame} />
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const GameScreen = ({ onEndGame }) => {
+  return (
+    <View>
+      <Text>InGame</Text>
+      <Button title="EndGame" onPress={onEndGame} />
+    </View>
+  );
+};
+
+const App = () => {
+  const [isGameStarted, setGameStarted] = useState(false);
+
+  const handleStartGame = () => {
+    setGameStarted(true);
+  };
+
+  const handleEndGame = () => {
+    setGameStarted(false);
+  };
+
+  return (
+    <View>
+      {isGameStarted ? (
+        <GameScreen onEndGame={handleEndGame} />
+      ) : (
+        <MainMenu onStartGame={handleStartGame} />
+      )}
+    </View>
+  );
+};
+
+export default App;
