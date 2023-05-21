@@ -1,45 +1,33 @@
-
 import React, { useState } from 'react';
 import { View, Button, Text } from 'react-native';
-
-const MainMenu = ({ onStartGame }) => {
-  return (
-    <View>
-      <Text>GameMenu</Text>
-      <Button title="GameStart" onPress={onStartGame} />
-    </View>
-  );
-};
-
-const GameScreen = ({ onEndGame }) => {
-  return (
-    <View>
-      <Text>InGame</Text>
-      <Button title="EndGame" onPress={onEndGame} />
-    </View>
-  );
-};
+import StartMenu from './src/components/StartMenu';
+import GameScreen from './src/components/GameScreen';
+import JoinScreen from './src/components/JoinGame';
 
 const App = () => {
   const [isGameStarted, setGameStarted] = useState(false);
-
+  const [isJoinGame , setJoinGame] = useState(false);
   const handleStartGame = () => {
     setGameStarted(true);
+    setJoinGame(false);
   };
-
+  const handleJoinGame = () => {
+    setJoinGame(true);
+  }
   const handleEndGame = () => {
     setGameStarted(false);
+    setJoinGame(false);
   };
 
-  return (
-    <View>
-      {isGameStarted ? (
-        <GameScreen onEndGame={handleEndGame} />
-      ) : (
-        <MainMenu onStartGame={handleStartGame} />
-      )}
-    </View>
-  );
+  if(isGameStarted){
+    return<GameScreen onEndGame={handleEndGame}/>
+  }
+  if(isJoinGame){
+    return<JoinScreen onStartGame={handleStartGame}/>
+  }
+  if(!isGameStarted){
+    return<StartMenu onStartGame={handleStartGame} onJoinGame={handleJoinGame}/>
+  }
 };
 
 export default App;
